@@ -8,9 +8,13 @@ const app = express();
 
 app.use(express.json());
 
-app.use("/customer", session({ secret: "fingerprint_customer", resave: true, saveUninitialized: true }))
+app.use(session({
+  secret: "fingerprint_customer",
+  resave: false,
+  saveUninitialized: true
+}));
 
-app.use("/customer/auth/*", function auth(req, res, next) {
+function auth(req, res, next) {
 
   if (!req.session.authorization) {
     return res.status(403).json({
@@ -18,9 +22,8 @@ app.use("/customer/auth/*", function auth(req, res, next) {
     });
   }
 
-  req.user = req.session.authorization.username;
   next();
-});
+}
 
 const PORT = 5000;
 
