@@ -32,7 +32,6 @@ regd_users.post("/login", (req, res) => {
 
   if (!authenticatedUser(username, password)) {
     return res.status(401).json({
-      success: false,
       message: "Invalid Login"
     });
   }
@@ -42,7 +41,6 @@ regd_users.post("/login", (req, res) => {
   };
 
   return res.status(200).json({
-    success: true,
     message: "User successfully logged in"
   });
 
@@ -56,43 +54,38 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
 
   const username = req.session.authorization.username;
 
-  if(!books[isbn]){
+  if (!books[isbn]) {
     return res.status(404).json({
-      success:false,
-      message:"Book not found"
+      message: "Book not found"
     });
   }
   books[isbn].reviews[username] = review;
 
-  return res.status(200).json({ 
-    success: true,
-    message: "Yet to be implemented",
-    reviews: books[isbn].reviews });
+  return res.status(200).json({
+    message: "Review added/modified successfully"
+  });
+
 });
 
-regd_users.delete("/auth/review/:isbn", (req,res) => {
+regd_users.delete("/auth/review/:isbn", (req, res) => {
   const isbn = req.params.isbn;
 
   const username = req.session.authorization.username;
 
-  if(!books[isbn]){
+  if (!books[isbn]) {
     return res.status(404).json({
-      success: false,
       message: "Book not found"
     });
   }
 
-  if(books[isbn].reviews[username]){
+  if (books[isbn].reviews[username]) {
     delete books[isbn].reviews[username];
 
     return res.status(200).json({
-      success: true,
       message: "Review deleted successfully",
-      reviews: books[isbn].reviews
     });
   }
   return res.status(404).json({
-    success: false,
     message: "Review not found for this user"
   });
 });
