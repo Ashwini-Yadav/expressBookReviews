@@ -106,7 +106,6 @@ public_users.get('/author/:author',async function (req, res) {
   //   books: filteredBooks
   // });
 
-  public_users.get("/author/:author", async (req, res) => {
   try {
     const author = req.params.author;
     const response = await axios.get(`http://localhost:5000/author/${author}`);
@@ -114,7 +113,6 @@ public_users.get('/author/:author',async function (req, res) {
   } catch (error) {
     return res.status(500).json({ message: "Error fetching books by author" });
   }
-});
 });
 
 // Get all books based on title
