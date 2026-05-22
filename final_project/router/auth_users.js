@@ -8,20 +8,12 @@ let users = [];
 
 const isValid = (username) => { //returns boolean
   //write code to check is the username is valid
-  let userswithsameusername = users.filter((user) => {
-    return user.username === username;
-  })
-
-  return userswithsameusername.length > 0;
+  return users.some(user => user.username === username);
 }
 
 const authenticatedUser = (username, password) => { //returns boolean
   //write code to check if username and password match the one we have in records.
-  let validUsers = users.filter((user) => {
-    return user.username === username && user.password === password;
-  });
-
-  return validUsers.length > 0;
+return users.some(user => user.username === username && user.password === password);
 }
 
 //only registered users can login
@@ -41,6 +33,7 @@ regd_users.post("/login", (req, res) => {
   };
 
   return res.status(200).json({
+    success: true,
     message: "User successfully logged in"
   });
 
